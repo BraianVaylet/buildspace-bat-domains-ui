@@ -8,6 +8,7 @@ export const CurrentAccountContext = createContext()
 export const CurrentAccountContextProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState()
   const [message, setMessage] = useState(null)
+  const [chainIdOk, setChainIdOk] = useState(false)
 
   const checkIfWalletIsConnected = async () => {
     let _message = ''
@@ -24,6 +25,7 @@ export const CurrentAccountContextProvider = ({ children }) => {
         return
       } else {
         console.log('We have the ethereum object', ethereum)
+        await checkNetwork(ethereum)
       }
 
       // Comprobamos si estamos autorizados a acceder a la billetera del usuario
@@ -52,6 +54,25 @@ export const CurrentAccountContextProvider = ({ children }) => {
     }
   }
 
+  const checkNetwork = async (ethereum) => {
+    let _message = ''
+    try {
+      if (ethereum.networkVersion !== '80001') {
+        setChainIdOk(false)
+        _message = 'Wrong network! Please switch to the Polygon testnet'
+        console.log(_message)
+        setMessage({
+          title: _message,
+          status: 'error'
+        })
+      } else {
+        setChainIdOk(true)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const connectWallet = async () => {
     try {
       const { ethereum } = window
@@ -75,6 +96,7 @@ export const CurrentAccountContextProvider = ({ children }) => {
         setCurrentAccount,
         checkIfWalletIsConnected,
         connectWallet,
+        chainIdOk,
         message
       }}
     >

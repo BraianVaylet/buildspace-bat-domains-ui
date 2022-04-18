@@ -36,7 +36,6 @@ const RenderConnectedContainer = () => (
 const Home = () => {
   const toast = useToast()
   const { checkIfWalletIsConnected, connectWallet, currentAccount, message } = useContext(CurrentAccountContext)
-  console.log('currentAccount', currentAccount)
 
   useEffect(() => {
     checkIfWalletIsConnected()
