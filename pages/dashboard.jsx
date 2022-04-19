@@ -4,7 +4,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
-import { CurrentAccountContext } from 'context/currentAccountContext'
+import { CurrentAccountContext } from 'context/CurrentAccountContext'
 import Layout from 'components/Layout'
 import { Button, Flex, FormControl, FormHelperText, FormLabel, Input, InputGroup, InputRightAddon, Spinner } from '@chakra-ui/react'
 import { CONTRACT } from 'utils/contracts'

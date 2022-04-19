@@ -1,7 +1,7 @@
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable react/prop-types */
 import { ChakraProvider, ColorModeScript, CSSReset } from '@chakra-ui/react'
-import { CurrentAccountContextProvider } from 'context/currentAccountContext'
+import { CurrentAccountContextProvider } from 'context/CurrentAccountContext'
 import customTheme from '../styles/theme'
 
 function MyApp ({ Component }) {

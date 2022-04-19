@@ -5,7 +5,7 @@ import { Link as ChakraLink, Accordion, AccordionButton, AccordionIcon, Accordio
 import logo from 'public/logo.png'
 import { FaGithub, FaLinkedin } from 'react-icons/fa'
 import MaticIcon from 'components/MaticIcon'
-import { CurrentAccountContext } from 'context/currentAccountContext'
+import { CurrentAccountContext } from 'context/CurrentAccountContext'
 
 // Create a function to render if wallet is not connected yet
 const RenderNotConnectedContainer = (action) => (
