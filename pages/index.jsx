@@ -14,6 +14,8 @@ const RenderNotConnectedContainer = (action) => (
     px={25}
     fontSize={20}
     letterSpacing={1}
+    bgGradient='linear(to-l, purple.700, purple.900)'
+    color={'white'}
     onClick={action}
   >
     Connect Wallet
@@ -26,6 +28,8 @@ const RenderConnectedContainer = () => (
     px={25}
     fontSize={20}
     letterSpacing={1}
+    bgGradient='linear(to-l, purple.700, purple.900)'
+    color={'white'}
   >
   <Link href="/dashboard">
     <a>Go to dashboard</a>
@@ -152,6 +156,8 @@ const Home = () => {
             as={ChakraLink}
             href={''}
             isExternal
+            bgGradient='linear(to-l, purple.700, purple.900)'
+            color={'white'}
             w={50}
             h={50}
             icon={
@@ -177,6 +183,8 @@ const Home = () => {
             as={ChakraLink}
             href={'https://www.linkedin.com/in/braianvaylet/'}
             isExternal
+            bgGradient='linear(to-l, purple.700, purple.900)'
+            color={'white'}
             w={50}
             h={50}
             icon={<Icon
@@ -196,6 +204,8 @@ const Home = () => {
             as={ChakraLink}
             href={'https://github.com/BraianVaylet/buildspace-taco-dao-ui'}
             isExternal
+            bgGradient='linear(to-l, purple.700, purple.900)'
+            color={'white'}
             w={50}
             h={50}
             icon={<Icon
