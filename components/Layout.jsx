@@ -12,6 +12,7 @@ const Layout = ({
   head,
   chain = false,
   address = '',
+  themes = false,
   children
 }) => {
   const { colorMode, toggleColorMode } = useColorMode()
@@ -103,21 +104,23 @@ const Layout = ({
           <Text px={3}>{handleAddress()}</Text>
         </Flex>
 
-        <Tooltip hasArrow label={'Change theme'} bg={'gray.900'} color={'white'}>
-          <IconButton
-            mx={2}
-            _hover={{
-              cursor: 'pointer',
-              color: 'purple.300'
-            }}
-            onClick={toggleColorMode}
-            icon={
-              colorMode === 'light'
-                ? <MoonIcon w={5} h={5} />
-                : <SunIcon w={5} h={5} />
-            }
-          />
-        </Tooltip>
+        {themes && (
+          <Tooltip hasArrow label={'Change theme'} bg={'gray.900'} color={'white'}>
+            <IconButton
+              mx={2}
+              _hover={{
+                cursor: 'pointer',
+                color: 'purple.300'
+              }}
+              onClick={toggleColorMode}
+              icon={
+                colorMode === 'light'
+                  ? <MoonIcon w={5} h={5} />
+                  : <SunIcon w={5} h={5} />
+              }
+            />
+          </Tooltip>
+        )}
         {contract.map(ctr => (
           <Tooltip key={ctr.title} hasArrow label={ctr.title} bg={'gray.900'} color={'white'}>
             <IconButton

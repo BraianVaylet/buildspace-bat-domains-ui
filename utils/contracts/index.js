@@ -2,7 +2,7 @@ import contractJson from './abis/Domains.json'
 
 export const CONTRACT = {
   BAT_NAME_SERVICE: {
-    ADDRESS: '0x7C6f0949aCB5D8CcC5faAA5Abe4eAb54DD88F81D',
+    ADDRESS: '0x0e2FAB00b661464DFaEfdc4913EeDF3BF8F37Cd7',
     ABI: contractJson.abi
   }
 }
