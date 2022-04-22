@@ -4,6 +4,8 @@ import { FaEthereum, FaGithub, FaLinkedin, FaWallet } from 'react-icons/fa'
 import { Flex, Icon, IconButton, Image, Link, Text, Tooltip, useColorMode } from '@chakra-ui/react'
 import { MoonIcon, SunIcon } from '@chakra-ui/icons'
 import LOGO from 'public/logo.png'
+import MaticIcon from './MaticIcon'
+import { CONTRACT } from 'utils/contracts'
 
 const Layout = ({
   title,
@@ -88,7 +90,7 @@ const Layout = ({
         >
           <Text>
             {chain
-              ? <Text color={'purple.400'}>Connected to <Link href={'https://www.rinkeby.io/#stats'} isExternal>Polygon Testnet</Link></Text>
+              ? <Text color={'purple.400'}>Connected to <Link href={'https://polygonscan.freshstatus.io/'} isExternal>Polygon Testnet</Link></Text>
               : <Text color={'red.600'}>Wrong network</Text>
             }
           </Text>
@@ -130,9 +132,19 @@ const Layout = ({
                 color: 'purple.300'
               }}
               as={Link}
-              href={`https://rinkeby.etherscan.io/address/${ctr.contract}`}
+              href={`${CONTRACT.SCAN}${ctr.contract}`}
               isExternal
-              icon={<Icon as={FaEthereum} w={7} h={7} />}
+              icon={
+                <MaticIcon
+                  w={'75%'}
+                  h={'75%'}
+                  size={34}
+                  _hover={{
+                    cursor: 'pointer',
+                    color: 'purple.400'
+                  }}
+                />
+              }
             />
           </Tooltip>
         ))}

@@ -58,13 +58,13 @@ const Dashboard = () => {
 
         // Check if the transaction was successfully completed
         if (receipt.status === 1) {
-          console.log('Domain minted! https://mumbai.polygonscan.com/tx/' + tx.hash)
+          console.log('Domain minted! ' + CONTRACT.SCAN + '/' + tx.hash)
 
           // Set the record for the domain
           tx = await contract.setRecord(domain, record)
           await tx.wait()
 
-          console.log('Record set! https://mumbai.polygonscan.com/tx/' + tx.hash)
+          console.log('Record set! ' + CONTRACT.SCAN + '/' + tx.hash)
 
           setRecord('')
           setDomain('')
@@ -88,6 +88,7 @@ const Dashboard = () => {
       address={currentAccount}
       title={'Bat Name Service'}
       description={'Your immortal API on the blockchain!'}
+      contract={[CONTRACT.BAT_NAME_SERVICE]}
     >
       <Flex
         direction={'column'}
