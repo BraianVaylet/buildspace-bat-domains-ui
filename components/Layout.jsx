@@ -1,23 +1,36 @@
 /* eslint-disable react/prop-types */
-import React from 'react'
-import { FaEthereum, FaGithub, FaLinkedin, FaWallet } from 'react-icons/fa'
-import { Flex, Icon, IconButton, Image, Link, Text, Tooltip, useColorMode } from '@chakra-ui/react'
+import React, { useContext, useEffect } from 'react'
+import { FaGithub, FaLinkedin, FaWallet } from 'react-icons/fa'
+import { Button, Flex, Icon, IconButton, Image, Link, Text, Tooltip, useColorMode, useToast } from '@chakra-ui/react'
 import { MoonIcon, SunIcon } from '@chakra-ui/icons'
 import LOGO from 'public/logo.png'
 import MaticIcon from './MaticIcon'
 import { CONTRACT } from 'utils/contracts'
+import { CurrentAccountContext } from 'context/CurrentAccountContext'
 
 const Layout = ({
   title,
   description,
   contract = [],
   head,
-  chain = false,
   address = '',
   themes = false,
   children
 }) => {
   const { colorMode, toggleColorMode } = useColorMode()
+  const toast = useToast()
+  const { message, chainIdOk, switchNetwork } = useContext(CurrentAccountContext)
+
+  useEffect(() => {
+    if (message) {
+      toast({
+        title: message.title,
+        status: message.status,
+        duration: 3000,
+        isClosable: true
+      })
+    }
+  }, [message])
 
   const handleAddress = () => {
     return address.slice(0, 2) + '...' + address.slice(-4)
@@ -89,7 +102,7 @@ const Layout = ({
           align={'center'}
         >
           <Text>
-            {chain
+            {chainIdOk
               ? <Text color={'purple.400'}>Connected to <Link href={'https://polygonscan.freshstatus.io/'} isExternal>Polygon Testnet</Link></Text>
               : <Text color={'red.600'}>Wrong network</Text>
             }
@@ -175,9 +188,54 @@ const Layout = ({
           />
         </Tooltip>
       </Flex>
-
-      {children}
-
+      <Flex
+        w={'100%'}
+        h={'100%'}
+        align={'center'}
+        direction={'column'}
+        justify={'center'}
+      >
+        {!chainIdOk &&
+          (
+            <Flex
+              w={'100%'}
+              h={'100vh'}
+              direction={'column'}
+              align={'center'}
+              justify={'center'}
+              backgroundColor={'rgba( 0, 0, 0, 0.45 )'}
+              boxShadow={'0 8px 32px 0 rgba( 31, 38, 135, 0.37 )'}
+              backdropFilter={'blur( 10.5px )'}
+              border={'1px solid rgba( 255, 255, 255, 0.18 )'}
+              position={'absolute'}
+              top={'0'}
+              bottom={'0'}
+              left={'0'}
+              right={'0'}
+              zIndex={'3'}
+            >
+              <Text fontSize={'3xl'} mb={10}>
+                Please connect to a correct network.
+              </Text>
+              <Flex
+                direction={'column'}
+                align={'flex-start'}
+                justify={'flex-start'}
+                mb={10}
+              >
+                <Text fontWeight={'bold'} fontSize={'2xl'}>Metamask Network Parameters</Text>
+                <Text>Network Name: Polygon Mumbai Testnet</Text>
+                <Text>New RPC URL: https://matic-mumbai.chainstacklabs.com</Text>
+                <Text>Chain ID: 80001</Text>
+                <Text>Currency Symbol: MATIC</Text>
+                <Text>Block Explorer URL: https://mumbai.polygonscan.com/</Text>
+              </Flex>
+              <Button onClick={switchNetwork}>Switch Network</Button>
+            </Flex>
+          )
+        }
+        {children}
+      </Flex>
     </Flex>
   )
 }

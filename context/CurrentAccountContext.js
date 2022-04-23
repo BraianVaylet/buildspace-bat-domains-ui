@@ -32,12 +32,12 @@ export const CurrentAccountContextProvider = ({ children }) => {
 
       if (accounts.length !== 0) {
         const account = accounts[0]
-        _message = `Found an authorized account: ${account}`
-        console.log(_message)
-        setMessage({
-          title: _message,
-          status: 'info'
-        })
+        // _message = `Found an authorized account: ${account}`
+        // console.log(_message)
+        // setMessage({
+        //   title: _message,
+        //   status: 'info'
+        // })
         setCurrentAccount(account)
       } else {
         _message = 'No authorized account found'
@@ -88,6 +88,59 @@ export const CurrentAccountContextProvider = ({ children }) => {
     }
   }
 
+  const switchNetwork = async () => {
+    let _message = ''
+    if (window.ethereum) {
+      try {
+        // Try to switch to the Mumbai testnet
+        await window.ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: '0x13881' }] // Check networks.js for hexadecimal network ids
+        })
+        _message = 'Successfully switched to the Mumbai testnet, reload the page to see the changes'
+        console.log(_message)
+        setMessage({
+          title: _message,
+          status: 'success'
+        })
+      } catch (error) {
+        // This error code means that the chain we want has not been added to MetaMask
+        // In this case we ask the user to add it to their MetaMask
+        if (error.code === 4902) {
+          try {
+            await window.ethereum.request({
+              method: 'wallet_addEthereumChain',
+              params: [
+                {
+                  chainId: '0x13881',
+                  chainName: 'Polygon Mumbai Testnet',
+                  rpcUrls: ['https://rpc-mumbai.maticvigil.com/'],
+                  nativeCurrency: {
+                    name: 'Mumbai Matic',
+                    symbol: 'MATIC',
+                    decimals: 18
+                  },
+                  blockExplorerUrls: ['https://mumbai.polygonscan.com/']
+                }
+              ]
+            })
+          } catch (error) {
+            console.log(error)
+          }
+        }
+        console.log(error)
+      }
+    } else {
+      // If window.ethereum is not found then MetaMask is not installed
+      _message = 'MetaMask is not installed. Please install it to use this app: https://metamask.io/download.html'
+      console.log(_message)
+      setMessage({
+        title: _message,
+        status: 'error'
+      })
+    }
+  }
+
   return (
     <CurrentAccountContext.Provider
       value={{
@@ -95,6 +148,7 @@ export const CurrentAccountContextProvider = ({ children }) => {
         setCurrentAccount,
         checkIfWalletIsConnected,
         connectWallet,
+        switchNetwork,
         chainIdOk,
         message
       }}
