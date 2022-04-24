@@ -40,9 +40,10 @@ const Layout = ({
     <Flex
       direction={'column'}
       align={'center'}
-      justify={'space-between'}
+      justify={'flex-start'}
       w={'100%'}
-      position={'relative'}
+      minH={'100vh'}
+      bgGradient='linear(to-l, purple.700, purple.900)'
     >
       {head}
 
@@ -52,11 +53,8 @@ const Layout = ({
         w={'100%'}
         p={5}
         px={20}
-        position={'fixed'}
       >
-        <Flex
-          w={'50%'}
-        >
+        <Flex w={'100%'}>
           <Flex
             align={'center'}
             justify={'space-between'}

@@ -55,6 +55,7 @@ export const CurrentAccountContextProvider = ({ children }) => {
 
   const checkNetwork = async (ethereum) => {
     let _message = ''
+    console.log('ethereum.networkVersion', ethereum.networkVersion)
     try {
       if (ethereum.networkVersion !== '80001') {
         setChainIdOk(false)
