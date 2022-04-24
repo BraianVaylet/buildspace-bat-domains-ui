@@ -4,11 +4,11 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
+import { Button, Center, Flex, FormControl, FormHelperText, Link, Heading, Input, InputGroup, InputRightAddon, Spinner, Text, useToast, Tag, Avatar, TagLabel } from '@chakra-ui/react'
+import { EditIcon } from '@chakra-ui/icons'
 import { CurrentAccountContext } from 'context/CurrentAccountContext'
 import Layout from 'components/Layout'
-import { Button, Center, Flex, FormControl, FormHelperText, FormLabel, Heading, Input, InputGroup, InputRightAddon, Spinner, Text, useToast } from '@chakra-ui/react'
 import { CONTRACT } from 'utils/contracts'
-import { EditIcon } from '@chakra-ui/icons'
 
 const tld = '.bat'
 
@@ -465,17 +465,39 @@ const Dashboard = () => {
                       justify={'center'}
                       w={'100%'}
                     >
-                      <Text fontSize={'large'} fontWeight={'bold'}>{element.name}</Text>
+                      <Text fontSize={'large'} fontWeight={'bold'}>
+                        {element.name}
+                      </Text>
                       <Text fontSize={'md'} color={'gray.500'}>{element.record}</Text>
                     </Flex>
-                    <Button
+                    <Flex>
+                      <Link ml={5} href={`https://testnets.opensea.io/assets/mumbai/${CONTRACT.BAT_NAME_SERVICE.ADDRESS}/${element.id}`}>
+                        <Tag size='md' colorScheme='blue' borderRadius='full' pr={2}>
+                          <Avatar
+                            src='https://opensea.io/static/images/logos/opensea.svg'
+                            size='xs'
+                            name='opensea'
+                            ml={-1}
+                            mr={2}
+                          />
+                          <TagLabel>opensea</TagLabel>
+                        </Tag>
+                      </Link>
+                      <Tag ml={5} size='md' colorScheme='green' borderRadius='full' pr={2}>
+                        <EditIcon />
+                        <TagLabel mr={2}>
+                          edit
+                        </TagLabel>
+                      </Tag>
+                    </Flex>
+                    {/* <Button
                     _hover={{
                       color: 'purple.400',
                       cursor: 'pointer'
                     }}
                     >
                       <EditIcon />
-                    </Button>
+                    </Button> */}
                   </Flex>
                 ))}
                 {(!mints || mints.length === 0) && (
