@@ -134,8 +134,8 @@ const Layout = ({
             />
           </Tooltip>
         )}
-        {contract.map(ctr => (
-          <Tooltip key={ctr.title} hasArrow label={ctr.title} bg={'gray.900'} color={'white'}>
+        {contract.map((ctr, index) => (
+          <Tooltip key={ctr.title + index} hasArrow label={ctr.title} bg={'gray.900'} color={'white'}>
             <IconButton
               mx={2}
               _hover={{

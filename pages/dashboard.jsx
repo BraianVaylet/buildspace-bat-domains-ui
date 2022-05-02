@@ -4,8 +4,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
-import { Button, Center, Flex, FormControl, FormHelperText, Link, Heading, Input, InputGroup, InputRightAddon, Spinner, Text, useToast, Tag, Avatar, TagLabel } from '@chakra-ui/react'
-import { EditIcon } from '@chakra-ui/icons'
+import { Button, Flex, FormControl, IconButton, FormHelperText, Link, Heading, Input, InputGroup, InputRightAddon, Spinner, Text, useToast, Tag, Avatar, TagLabel, Divider } from '@chakra-ui/react'
+import { EditIcon, CloseIcon } from '@chakra-ui/icons'
 import { CurrentAccountContext } from 'context/CurrentAccountContext'
 import Layout from 'components/Layout'
 import { CONTRACT } from 'utils/contracts'
@@ -15,15 +15,18 @@ const tld = '.bat'
 const Dashboard = () => {
   const router = useRouter()
   const toast = useToast()
-  const { checkIfWalletIsConnected, currentAccount, chainIdOk } = useContext(CurrentAccountContext)
+  const { checkIfWalletIsConnected, currentAccount, chainIdOk, checkNetwork, connectWallet } = useContext(CurrentAccountContext)
   const [domain, setDomain] = useState('')
   const [record, setRecord] = useState('')
   const [mints, setMints] = useState([])
   const [loading, setLoading] = useState({ message: '', status: false })
   const [loading2, setLoading2] = useState({ message: '', status: false })
+  const [editView, setEditView] = useState(false)
 
   useEffect(() => {
     checkIfWalletIsConnected()
+    checkNetwork()
+    connectWallet()
   }, [])
 
   useEffect(() => {
@@ -125,10 +128,10 @@ const Dashboard = () => {
   const updateDomain = async () => {
     if (!record || !domain) { return }
     setLoading({
-      message: `Updating domain ${domain} with record ${record}`,
-      status: false
+      message: 'Updating domain',
+      status: true
     })
-    console.log('Updating domain', domain, 'with record', record)
+
     try {
       const { ethereum } = window
       if (ethereum) {
@@ -140,6 +143,7 @@ const Dashboard = () => {
         fetchMints()
         setRecord('')
         setDomain('')
+        setEditView(false)
       }
     } catch (error) {
       console.log(error)
@@ -169,11 +173,12 @@ const Dashboard = () => {
             id: names.indexOf(name),
             name: name,
             record: mintRecord,
-            owner: owner
+            owner: owner.toLowerCase()
           }
         }))
 
         console.log('MINTS FETCHED ', mintRecords)
+        console.log('currentAccount', currentAccount)
         setMints(mintRecords)
       }
     } catch (error) {
@@ -200,6 +205,12 @@ const Dashboard = () => {
     event.preventDefault()
   }
 
+  const handleEdit = ({ domain, record }) => {
+    setDomain(domain)
+    setRecord(record)
+    setEditView(true)
+  }
+
   return (
     <Layout
       chain={chainIdOk}
@@ -224,161 +235,317 @@ const Dashboard = () => {
           justify={'center'}
           w={'45%'}
         >
-          <Center
-            w={'100%'}
-            p={10}
-            backgroundColor={'rgba( 0, 0, 0, 0.65 )'}
-            boxShadow={'0 8px 32px 0 rgba( 31, 38, 135, 0.37 )'}
-            backdropFilter={'blur( 10.5px )'}
-            borderRadius={'10px'}
-            border={'1px solid rgba( 255, 255, 255, 0.18 )'}
-            minHeight={'600px'}
-            zIndex={'1'}
-            position={'relative'}
-          >
-            {loading.status &&
-              (
+          {/* New Domain */}
+          {!editView && (
+            <Flex
+              w={'100%'}
+              p={10}
+              direction={'column'}
+              align={'flex-start'}
+              justify={'flex-start'}
+              backgroundColor={'rgba( 0, 0, 0, 0.65 )'}
+              boxShadow={'0 8px 32px 0 rgba( 31, 38, 135, 0.37 )'}
+              backdropFilter={'blur( 10.5px )'}
+              borderRadius={'10px'}
+              border={'1px solid rgba( 255, 255, 255, 0.18 )'}
+              minHeight={'600px'}
+              zIndex={'1'}
+              position={'relative'}
+            >
+              {loading.status &&
+                (
+                  <Flex
+                    w={'100%'}
+                    h={'100%'}
+                    align={'center'}
+                    direction={'column'}
+                    justify={'center'}
+                    backgroundColor={'rgba( 0, 0, 0, 0.45 )'}
+                    boxShadow={'0 8px 32px 0 rgba( 31, 38, 135, 0.37 )'}
+                    backdropFilter={'blur( 10.5px )'}
+                    borderRadius={'10px'}
+                    border={'1px solid rgba( 255, 255, 255, 0.18 )'}
+                    minHeight={'600px'}
+                    zIndex={'2'}
+                    position={'absolute'}
+                    top={'0'}
+                    bottom={'0'}
+                    left={'0'}
+                    right={'0'}
+                  >
+                    <Spinner
+                      thickness='6px'
+                      speed='0.65s'
+                      emptyColor='purple.900'
+                      color='purple.700'
+                      size='xl'
+                    />
+                    <Text>{loading.message}</Text>
+                  </Flex>
+                )}
+                <Heading mb={5}>Mint a new domain</Heading>
                 <Flex
+                  as={'form'}
+                  onSubmit={handleSubmit}
+                  direction={'column'}
+                  align={'center'}
+                  justify={'center'}
                   w={'100%'}
-                  h={'100%'}
-                  align={'center'}
-                  direction={'column'}
-                  justify={'center'}
-                  backgroundColor={'rgba( 0, 0, 0, 0.45 )'}
-                  boxShadow={'0 8px 32px 0 rgba( 31, 38, 135, 0.37 )'}
-                  backdropFilter={'blur( 10.5px )'}
-                  borderRadius={'10px'}
-                  border={'1px solid rgba( 255, 255, 255, 0.18 )'}
-                  minHeight={'600px'}
-                  zIndex={'2'}
-                  position={'absolute'}
-                  top={'0'}
-                  bottom={'0'}
-                  left={'0'}
-                  right={'0'}
+                  mt={20}
                 >
-                  <Spinner
-                    thickness='6px'
-                    speed='0.65s'
-                    emptyColor='purple.900'
-                    color='purple.700'
-                    size='xl'
-                  />
-                  <Text>{loading.message}</Text>
-                </Flex>
-              )}
-
-              <Flex
-                as={'form'}
-                onSubmit={handleSubmit}
-                direction={'column'}
-                align={'center'}
-                justify={'center'}
-                w={'100%'}
-              >
-                <FormControl
-                  isRequired
-                  as={Flex}
-                  direction={'column'}
-                  align={'flex-start'}
-                  justify={'center'}
-                  w={'90%'}
-                >
-                  <InputGroup size='lg'>
-                    <Input
-                      onChange={(event) => setDomain(event.target.value)}
-                      textAlign={'center'}
-                      fontSize={'2xl'}
-                      letterSpacing={1}
-                      id='domain'
-                      type='text'
-                      placeholder='New domain'
-                      color='purple.400'
-                      backgroundColor={'rgba( 0, 0, 0, 0.65 )'}
-                      boxShadow={'0 8px 32px 0 rgba( 31, 38, 135, 0.37 )'}
-                      backdropFilter={'blur( 10.5px )'}
-                      borderRadius={'10px'}
-                      border={'1px solid rgba( 255, 255, 255, 0.18 )'}
-                    />
-                    <InputRightAddon
-                      backgroundColor={'purple.400'}
-                      textAlign={'center'}
-                      fontSize={'2xl'}
-                      letterSpacing={1}
+                  <FormControl
+                    isRequired
+                    as={Flex}
+                    direction={'column'}
+                    align={'flex-start'}
+                    justify={'center'}
+                    w={'90%'}
+                  >
+                    <InputGroup size='lg'>
+                      <Input
+                        onChange={(event) => setDomain(event.target.value)}
+                        textAlign={'center'}
+                        fontSize={'2xl'}
+                        letterSpacing={1}
+                        id='domain'
+                        type='text'
+                        placeholder='New domain'
+                        color='purple.400'
+                        backgroundColor={'rgba( 0, 0, 0, 0.65 )'}
+                        boxShadow={'0 8px 32px 0 rgba( 31, 38, 135, 0.37 )'}
+                        backdropFilter={'blur( 10.5px )'}
+                        borderRadius={'10px'}
+                        border={'1px solid rgba( 255, 255, 255, 0.18 )'}
+                      />
+                      <InputRightAddon
+                        backgroundColor={'purple.400'}
+                        textAlign={'center'}
+                        fontSize={'2xl'}
+                        letterSpacing={1}
+                        color={'white'}
+                        children={tld}
+                        border={'1px solid rgba( 255, 255, 255, 0.18 )'}
+                      />
+                    </InputGroup>
+                    <FormHelperText>Enter your domain name.</FormHelperText>
+                  </FormControl>
+                  <FormControl
+                    isRequired
+                    as={Flex}
+                    direction={'column'}
+                    align={'flex-start'}
+                    justify={'center'}
+                    w={'90%'}
+                    mt={10}
+                  >
+                    <InputGroup size='lg'>
+                      <Input
+                        onChange={(event) => setRecord(event.target.value)}
+                        textAlign={'center'}
+                        fontSize={'2xl'}
+                        letterSpacing={1}
+                        id='value'
+                        type='text'
+                        placeholder='Record...'
+                        color='purple.400'
+                        backgroundColor={'rgba( 0, 0, 0, 0.65 )'}
+                        boxShadow={'0 8px 32px 0 rgba( 31, 38, 135, 0.37 )'}
+                        backdropFilter={'blur( 10.5px )'}
+                        borderRadius={'10px'}
+                        border={'1px solid rgba( 255, 255, 255, 0.18 )'}
+                      />
+                    </InputGroup>
+                    <FormHelperText>Register your domain.</FormHelperText>
+                  </FormControl>
+                  <Flex
+                    direction={'column'}
+                    align={'center'}
+                    justify={'center'}
+                    w={'25%'}
+                    mt={10}
+                  >
+                    <Button
+                      onClick={mintDomain}
+                      my={5}
+                      w={'100%'}
+                      bgGradient='linear(to-l, purple.700, purple.900)'
                       color={'white'}
-                      children={tld}
-                      border={'1px solid rgba( 255, 255, 255, 0.18 )'}
-                    />
-                  </InputGroup>
-                  <FormHelperText>Enter your domain name.</FormHelperText>
-                </FormControl>
-                <FormControl
-                  isRequired
-                  as={Flex}
-                  direction={'column'}
-                  align={'flex-start'}
-                  justify={'center'}
-                  w={'90%'}
-                  mt={10}
-                >
-                  <InputGroup size='lg'>
-                    <Input
-                      onChange={(event) => setRecord(event.target.value)}
-                      textAlign={'center'}
-                      fontSize={'2xl'}
                       letterSpacing={1}
-                      id='value'
-                      type='text'
-                      placeholder='Record...'
-                      color='purple.400'
-                      backgroundColor={'rgba( 0, 0, 0, 0.65 )'}
-                      boxShadow={'0 8px 32px 0 rgba( 31, 38, 135, 0.37 )'}
-                      backdropFilter={'blur( 10.5px )'}
-                      borderRadius={'10px'}
-                      border={'1px solid rgba( 255, 255, 255, 0.18 )'}
+                      _hover={{
+                        bg: 'purple.700'
+                      }}
+                    >
+                      MINT
+                    </Button>
+                  </Flex>
+                </Flex>
+
+            </Flex>
+          )}
+
+          {/* Edit Domain */}
+          {editView && (
+            <Flex
+              w={'100%'}
+              p={10}
+              direction={'column'}
+              align={'flex-start'}
+              justify={'flex-start'}
+              backgroundColor={'rgba( 0, 0, 0, 0.65 )'}
+              boxShadow={'0 8px 32px 0 rgba( 31, 38, 135, 0.37 )'}
+              backdropFilter={'blur( 10.5px )'}
+              borderRadius={'10px'}
+              border={'1px solid rgba( 255, 255, 255, 0.18 )'}
+              minHeight={'600px'}
+              zIndex={'1'}
+              position={'relative'}
+            >
+              {loading.status &&
+                (
+                  <Flex
+                    w={'100%'}
+                    h={'100%'}
+                    align={'center'}
+                    direction={'column'}
+                    justify={'center'}
+                    backgroundColor={'rgba( 0, 0, 0, 0.45 )'}
+                    boxShadow={'0 8px 32px 0 rgba( 31, 38, 135, 0.37 )'}
+                    backdropFilter={'blur( 10.5px )'}
+                    borderRadius={'10px'}
+                    border={'1px solid rgba( 255, 255, 255, 0.18 )'}
+                    minHeight={'600px'}
+                    zIndex={'2'}
+                    position={'absolute'}
+                    top={'0'}
+                    bottom={'0'}
+                    left={'0'}
+                    right={'0'}
+                  >
+                    <Spinner
+                      thickness='6px'
+                      speed='0.65s'
+                      emptyColor='green.900'
+                      color='green.700'
+                      size='xl'
                     />
-                  </InputGroup>
-                  <FormHelperText>Register your domain.</FormHelperText>
-                </FormControl>
+                    <Text>{loading.message}</Text>
+                  </Flex>
+                )}
                 <Flex
+                  align={'center'}
+                  justify={'space-between'}
+                  w={'100%'}
+                  mb={5}
+                >
+                  <Heading>Edit your domain</Heading>
+                  <IconButton
+                    onClick={() => setEditView(false)}
+                    aria-label='close edit form'
+                    icon={<CloseIcon />}
+                  />
+                </Flex>
+                <Flex
+                  as={'form'}
+                  onSubmit={handleSubmit}
                   direction={'column'}
                   align={'center'}
                   justify={'center'}
-                  w={'25%'}
-                  mt={10}
+                  w={'100%'}
+                  mt={20}
                 >
-                  <Button
-                    onClick={mintDomain}
-                    my={5}
-                    w={'100%'}
-                    bgGradient='linear(to-l, purple.700, purple.900)'
-                    color={'white'}
-                    letterSpacing={1}
-                    _hover={{
-                      bg: 'purple.700'
-                    }}
+                  <FormControl
+                    isRequired
+                    as={Flex}
+                    direction={'column'}
+                    align={'flex-start'}
+                    justify={'center'}
+                    w={'90%'}
                   >
-                    MINT
-                  </Button>
-                  <Button
-                    my={5}
-                    w={'100%'}
-                    bgGradient='linear(to-l, purple.700, purple.900)'
-                    color={'white'}
-                    letterSpacing={1}
-                    _hover={{
-                      bg: 'purple.700'
-                    }}
+                    <InputGroup size='lg'>
+                      <Input
+                        textAlign={'center'}
+                        fontSize={'2xl'}
+                        letterSpacing={1}
+                        id='domain'
+                        type='text'
+                        value={domain}
+                        disabled={true}
+                        color='green.400'
+                        backgroundColor={'rgba( 0, 0, 0, 0.65 )'}
+                        boxShadow={'0 8px 32px 0 rgba( 31, 38, 135, 0.37 )'}
+                        backdropFilter={'blur( 10.5px )'}
+                        borderRadius={'10px'}
+                        border={'1px solid rgba( 255, 255, 255, 0.18 )'}
+                      />
+                      <InputRightAddon
+                        backgroundColor={'green.400'}
+                        textAlign={'center'}
+                        fontSize={'2xl'}
+                        letterSpacing={1}
+                        color={'white'}
+                        children={tld}
+                        border={'1px solid rgba( 255, 255, 255, 0.18 )'}
+                      />
+                    </InputGroup>
+                    <FormHelperText>Enter your domain name.</FormHelperText>
+                  </FormControl>
+                  <FormControl
+                    isRequired
+                    as={Flex}
+                    direction={'column'}
+                    align={'flex-start'}
+                    justify={'center'}
+                    w={'90%'}
+                    mt={10}
                   >
-                    Set Data
-                  </Button>
+                    <InputGroup size='lg'>
+                      <Input
+                        onChange={(event) => setRecord(event.target.value)}
+                        textAlign={'center'}
+                        fontSize={'2xl'}
+                        letterSpacing={1}
+                        id='value'
+                        type='text'
+                        placeholder='Record...'
+                        value={record}
+                        color='green.400'
+                        backgroundColor={'rgba( 0, 0, 0, 0.65 )'}
+                        boxShadow={'0 8px 32px 0 rgba( 31, 38, 135, 0.37 )'}
+                        backdropFilter={'blur( 10.5px )'}
+                        borderRadius={'10px'}
+                        border={'1px solid rgba( 255, 255, 255, 0.18 )'}
+                      />
+                    </InputGroup>
+                    <FormHelperText>Register your domain.</FormHelperText>
+                  </FormControl>
+                  <Flex
+                    direction={'column'}
+                    align={'center'}
+                    justify={'center'}
+                    w={'25%'}
+                    mt={10}
+                  >
+                    <Button
+                      onClick={updateDomain}
+                      my={5}
+                      w={'100%'}
+                      bgGradient='linear(to-l, green.700, green.900)'
+                      color={'white'}
+                      letterSpacing={1}
+                      _hover={{
+                        bg: 'green.700'
+                      }}
+                    >
+                      SAVE
+                    </Button>
+                  </Flex>
                 </Flex>
-              </Flex>
 
-          </Center>
+            </Flex>
+          )}
         </Flex>
 
-        {/* List */}
+        {/* List Domains */}
         <Flex
           direction={'column'}
           align={'center'}
@@ -443,11 +610,11 @@ const Dashboard = () => {
                 w={'100%'}
               >
                 <Heading mb={5}>Recently minted domains!</Heading>
-                {mints && mints.length && mints.map(element => (
+                {mints && mints.map(element => (
                   <Flex
                     key={element.id}
-                    direction={'row'}
-                    justify={'flex-start'}
+                    direction={'column'}
+                    justify={'space-between'}
                     align={'center'}
                     w={'100%'}
                     my={1}
@@ -457,47 +624,96 @@ const Dashboard = () => {
                     backdropFilter={'blur( 10.5px )'}
                     borderRadius={'10px'}
                     border={'1px solid rgba( 255, 255, 255, 0.18 )'}
+                    _hover={{
+                      cursor: element.owner === currentAccount ? 'pointer' : 'not-allowed'
+                    }}
                   >
                     <Flex
-                      key={element.id}
-                      direction={'column'}
-                      align={'flex-start'}
-                      justify={'center'}
+                      direction={'row'}
+                      justify={'flex-start'}
+                      align={'center'}
                       w={'100%'}
+                      pb={2}
                     >
-                      <Text fontSize={'large'} fontWeight={'bold'}>
-                        {element.name}
-                      </Text>
-                      <Text fontSize={'md'} color={'gray.500'}>{element.record}</Text>
+                      <Flex
+                        key={element.id}
+                        direction={'column'}
+                        align={'flex-start'}
+                        justify={'center'}
+                        w={'100%'}
+                      >
+                        <Text
+                          fontSize={'large'}
+                          fontWeight={'bold'}
+                        >
+                          {element.name}.bat
+                        </Text>
+                        <Text
+                          fontSize={'md'}
+                          color={'gray.500'}
+                        >
+                          {element.record}
+                        </Text>
+                      </Flex>
+                      { element.owner === currentAccount && (
+                        <Flex>
+                          <Link
+                            href={`https://testnets.opensea.io/assets/mumbai/${CONTRACT.BAT_NAME_SERVICE.ADDRESS}/${element.id}`}
+                            ml={5}
+                          >
+                            <Tag
+                              size='md'
+                              colorScheme='blue'
+                              borderRadius='full'
+                              pr={2}
+                              _hover={{
+                                cursor: 'pointer',
+                                opacity: '0.8'
+                              }}
+                            >
+                              <Avatar
+                                src='https://opensea.io/static/images/logos/opensea.svg'
+                                size='xs'
+                                name='opensea'
+                                ml={-1}
+                                mr={2}
+                              />
+                              <TagLabel _hover={{
+                                textDecoration: 'none'
+                              }}>opensea</TagLabel>
+                            </Tag>
+                          </Link>
+                          <Tag
+                            onClick={() => handleEdit({
+                              domain: element.name,
+                              record: element.record
+                            })}
+                            ml={5}
+                            size='md'
+                            colorScheme='green'
+                            borderRadius='full'
+                            pr={2}
+                            _hover={{
+                              cursor: 'pointer',
+                              opacity: '0.8'
+                            }}
+                          >
+                            <EditIcon />
+                            <TagLabel mr={2}>
+                              edit
+                            </TagLabel>
+                          </Tag>
+                        </Flex>
+                      )}
                     </Flex>
-                    <Flex>
-                      <Link ml={5} href={`https://testnets.opensea.io/assets/mumbai/${CONTRACT.BAT_NAME_SERVICE.ADDRESS}/${element.id}`}>
-                        <Tag size='md' colorScheme='blue' borderRadius='full' pr={2}>
-                          <Avatar
-                            src='https://opensea.io/static/images/logos/opensea.svg'
-                            size='xs'
-                            name='opensea'
-                            ml={-1}
-                            mr={2}
-                          />
-                          <TagLabel>opensea</TagLabel>
-                        </Tag>
-                      </Link>
-                      <Tag ml={5} size='md' colorScheme='green' borderRadius='full' pr={2}>
-                        <EditIcon />
-                        <TagLabel mr={2}>
-                          edit
-                        </TagLabel>
-                      </Tag>
-                    </Flex>
-                    {/* <Button
-                    _hover={{
-                      color: 'purple.400',
-                      cursor: 'pointer'
-                    }}
+                    <Divider />
+                    <Text
+                      pt={2}
+                      color={'purple.300'}
+                      fontSize={'sm'}
                     >
-                      <EditIcon />
-                    </Button> */}
+                      [{element.owner}]
+                    </Text>
                   </Flex>
                 ))}
                 {(!mints || mints.length === 0) && (

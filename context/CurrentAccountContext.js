@@ -24,7 +24,6 @@ export const CurrentAccountContextProvider = ({ children }) => {
         return
       } else {
         console.log('We have the ethereum object', ethereum)
-        await checkNetwork(ethereum)
       }
 
       // Comprobamos si estamos autorizados a acceder a la billetera del usuario
@@ -32,12 +31,6 @@ export const CurrentAccountContextProvider = ({ children }) => {
 
       if (accounts.length !== 0) {
         const account = accounts[0]
-        // _message = `Found an authorized account: ${account}`
-        // console.log(_message)
-        // setMessage({
-        //   title: _message,
-        //   status: 'info'
-        // })
         setCurrentAccount(account)
       } else {
         _message = 'No authorized account found'
@@ -53,20 +46,31 @@ export const CurrentAccountContextProvider = ({ children }) => {
     }
   }
 
-  const checkNetwork = async (ethereum) => {
+  const checkNetwork = ethereum => {
     let _message = ''
-    console.log('ethereum.networkVersion', ethereum.networkVersion)
+    console.log('ethereum', ethereum)
     try {
-      if (ethereum.networkVersion !== '80001') {
-        setChainIdOk(false)
-        _message = 'Wrong network! Please switch to the Polygon testnet'
+      const { ethereum } = window
+      if (ethereum) {
+        console.log('ethereum.networkVersion', ethereum.networkVersion)
+        if (ethereum.networkVersion && ethereum.networkVersion !== '80001') {
+          setChainIdOk(false)
+          _message = 'Wrong network! Please switch to the Polygon testnet'
+          console.log(_message)
+          setMessage({
+            title: _message,
+            status: 'error'
+          })
+        } else {
+          setChainIdOk(true)
+        }
+      } else {
+        _message = 'Make sure you have metamask!'
         console.log(_message)
         setMessage({
           title: _message,
           status: 'error'
         })
-      } else {
-        setChainIdOk(true)
       }
     } catch (error) {
       console.log(error)
@@ -151,7 +155,8 @@ export const CurrentAccountContextProvider = ({ children }) => {
         connectWallet,
         switchNetwork,
         chainIdOk,
-        message
+        message,
+        checkNetwork
       }}
     >
       {children}
