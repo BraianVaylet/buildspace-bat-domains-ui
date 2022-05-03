@@ -14,7 +14,8 @@ Este proyecto consume un smart-contract desarrollado en Solidity utilizando el f
 
 ## Sobre el proyecto:
 
-Proyecto web basado en la web3 desarrollado con **[Next.js](https://nextjs.org/)** y **[ChakraUI](https://chakra-ui.com/)**. En esta aplicación los usuarios podrán mintear un dominio .bat que será almacenado dentro de la blockchain de Polygon, para esto es necesario primero autenticarse usando la wallet **[Metamask](https://metamask.io/)** y configurandola para usar la red de prueba de **[Mumbai](https://mumbai.polygonscan.com/)**.
+Se trata de un proyecto web de un **Servicio ENS** basado en la web3 desarrollado con **[Next.js](https://nextjs.org/)** y **[ChakraUI](https://chakra-ui.com/)**. En esta aplicación los usuarios podrán mintear un dominio **.bat** por medio del servicio ENS que almacenará el dominio dentro de la blockchain de Polygon como un NFT. 
+Para esto es necesario primero autenticarse usando la wallet **[Metamask](https://metamask.io/)** y configurandola para usar la red de prueba de **[Mumbai](https://mumbai.polygonscan.com/)**.
 
 Los usuarios podrán mintaer, ver y editar un dominio que se almacenará en la cadena de bloques, para esto es necesario pagar la transacción usando MATIC. Dado a que nos encontramos en la red de Mumbai no estaremos usando MATIC real, sino unos de prueba. Para cargarle saldo a tu wallet y asi tener MATIC para usar en la red de Mumbai pueden usar los siguientes enlaces 
 - **[https://faucet.polygon.technology/](https://faucet.polygon.technology/)**
@@ -23,15 +24,17 @@ Los usuarios podrán mintaer, ver y editar un dominio que se almacenará en la c
 
 Este fue un proyecto con fin 100% académico mientras realizaba los cursos de la plataforma **[buildspace](https://buildspace.so/)**, la cual recomiendo a todo desarrollador que quiera comenzar a desarrollar para la web3.
 
-La aplicación está conectándose a un smart-contract desarrollado con la tecnología **[Solidity](https://solidity-es.readthedocs.io/es/latest/#)**, pueden revisar su repo tambien. 
+La aplicación está conectándose a un smart-contract desarrollado con la tecnología **[Solidity](https://solidity-es.readthedocs.io/es/latest/#)**, pueden revisar su repo también. 
 
 ## Algunas capturas del proyecto:
 
-![screenshot#1](https://raw.githubusercontent.com/BraianVaylet/buildspace-wave-portal-ui/main/screenshot/1.png)
+![screenshot#1](https://raw.githubusercontent.com/BraianVaylet/buildspace-bat-domains-ui/main/public/bat1.png)
 
-![screenshot#2](https://raw.githubusercontent.com/BraianVaylet/buildspace-wave-portal-ui/main/screenshot/2.png)
+![screenshot#2](https://raw.githubusercontent.com/BraianVaylet/buildspace-bat-domains-ui/main/public/bat2.png)
 
-![screenshot#3](https://raw.githubusercontent.com/BraianVaylet/buildspace-wave-portal-ui/main/screenshot/3.png)
+![screenshot#3](https://raw.githubusercontent.com/BraianVaylet/buildspace-bat-domains-ui/main/public/bat3.png)
+
+![screenshot#4](https://raw.githubusercontent.com/BraianVaylet/buildspace-bat-domains-ui/main/public/bat4.png)
 
 ---
 
@@ -69,3 +72,5 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+
