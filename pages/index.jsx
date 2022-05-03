@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useContext } from 'react'
 import Link from 'next/link'
-import { Link as ChakraLink, Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Button, Flex, Icon, IconButton, Image, Text, Tooltip, useToast } from '@chakra-ui/react'
+import { Link as ChakraLink, Button, Flex, Icon, IconButton, Image, Text, Tooltip, useToast } from '@chakra-ui/react'
 import logo from 'public/logo.png'
 import { FaGithub, FaLinkedin } from 'react-icons/fa'
 import MaticIcon from 'components/MaticIcon'
