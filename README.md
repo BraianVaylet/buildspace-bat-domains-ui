@@ -24,6 +24,8 @@ Los usuarios podrán mintaer, ver y editar un dominio que se almacenará en la c
 
 Este fue un proyecto con fin 100% académico mientras realizaba los cursos de la plataforma **[buildspace](https://buildspace.so/)**, la cual recomiendo a todo desarrollador que quiera comenzar a desarrollar para la web3.
 
+### [[NFT] CURSO COMPLETO](https://opensea.io/assets/matic/0x3CD266509D127d0Eac42f4474F57D0526804b44e/17970?force_update=true)
+
 La aplicación está conectándose a un smart-contract desarrollado con la tecnología **[Solidity](https://solidity-es.readthedocs.io/es/latest/#)**, pueden revisar su repo también. 
 
 ## Algunas capturas del proyecto:
