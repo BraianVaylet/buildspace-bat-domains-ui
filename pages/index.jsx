@@ -71,23 +71,23 @@ const Home = () => {
         align={'center'}
         justify={'center'}
         direction={'column'}
-        w={'50%'}
+        w={['50%', '50%', '100%', '100%']}
       >
         <Text
           id='top'
           as='h1'
-          fontSize={'3xl'}
+          fontSize={['xl', 'xl', '3xl', '3xl']}
           fontWeight={900}
           letterSpacing={'1px'}
           color={'white'}
         >
           {"Hi 👋, I'm Braian"}
         </Text>
-        <Image src={logo.src} alt={'taco logo'} w={200} />
+        <Image src={logo.src} alt={'taco logo'} w={[150, 150, 200, 200]} />
         <Text
           as='h3'
           my={5}
-          fontSize={'5xl'}
+          fontSize={['2xl', '2xl', '5xl', '5xl']}
           fontWeight={600}
           letterSpacing={'.5px'}
           color={'white'}
@@ -97,36 +97,13 @@ const Home = () => {
         <Text
           as='h4'
           mb={5}
-          fontSize={'3xl'}
+          fontSize={['xl', 'xl', '3xl', '3xl']}
           fontWeight={300}
           letterSpacing={'.5px'}
           color={'white'}
         >
           Your immortal API on the blockchain!
         </Text>
-        <Accordion w={'100%'} allowMultiple>
-          <AccordionItem>
-            <h2>
-              <AccordionButton>
-                <Box flex='1' textAlign='left'>
-                  <Text
-                    color={'white'}
-                    as={'h4'}
-                    fontSize={20}
-                    fontWeight={'bold'}>
-                      About the project
-                  </Text>
-                </Box>
-                <AccordionIcon />
-              </AccordionButton>
-            </h2>
-            <AccordionPanel pb={4} color={'white'}>
-              <Text>
-                lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </Text>
-            </AccordionPanel>
-          </AccordionItem>
-        </Accordion>
       </Flex>
 
       <Flex

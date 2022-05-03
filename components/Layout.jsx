@@ -42,7 +42,7 @@ const Layout = ({
       align={'center'}
       justify={'flex-start'}
       w={'100%'}
-      minH={'100vh'}
+      minH={['100%', '100%', '100vh', '100vh']}
       bgGradient='linear(to-l, purple.700, purple.900)'
     >
       {head}
@@ -52,9 +52,9 @@ const Layout = ({
         justify={'space-between'}
         w={'100%'}
         p={5}
-        px={20}
+        px={[5, 5, 20, 20]}
       >
-        <Flex w={'100%'}>
+        <Flex w={'100%'} display={['none', 'none', 'flex', 'flex']}>
           <Flex
             align={'center'}
             justify={'space-between'}
@@ -63,10 +63,11 @@ const Layout = ({
             <Image
               src={LOGO.src}
               alt={`logo ${title}`}
-              w={20}
-              h={20}
+              w={[5, 5, 20, 20]}
+              h={[5, 5, 20, 20]}
             />
             <Flex
+              display={['none', 'none', 'flex', 'flex']}
               direction={'column'}
               align={'flex-start'}
               justify={'center'}
@@ -110,6 +111,7 @@ const Layout = ({
         <Text px={'5'}>|</Text>
 
         <Flex
+          display={['none', 'none', 'flex', 'flex']}
           align={'center'}
           justify={'space-between'}
         >
@@ -118,7 +120,13 @@ const Layout = ({
         </Flex>
 
         {themes && (
-          <Tooltip hasArrow label={'Change theme'} bg={'gray.900'} color={'white'}>
+          <Tooltip
+            display={['none', 'none', 'block', 'block']}
+            hasArrow
+            label={'Change theme'}
+            bg={'gray.900'}
+            color={'white'}
+          >
             <IconButton
               mx={2}
               _hover={{
@@ -135,7 +143,14 @@ const Layout = ({
           </Tooltip>
         )}
         {contract.map((ctr, index) => (
-          <Tooltip key={ctr.title + index} hasArrow label={ctr.title} bg={'gray.900'} color={'white'}>
+          <Tooltip
+            display={['none', 'none', 'block', 'block']}
+            key={ctr.title + index}
+            hasArrow
+            label={ctr.title}
+            bg={'gray.900'}
+            color={'white'}
+          >
             <IconButton
               mx={2}
               _hover={{
@@ -159,7 +174,13 @@ const Layout = ({
             />
           </Tooltip>
         ))}
-        <Tooltip hasArrow label={'linkedin'} bg={'gray.900'} color={'white'}>
+        <Tooltip
+          display={['none', 'none', 'block', 'block']}
+          hasArrow
+          label={'linkedin'}
+          bg={'gray.900'}
+          color={'white'}
+        >
           <IconButton
             mx={2}
             _hover={{
@@ -172,7 +193,13 @@ const Layout = ({
             icon={<Icon as={FaLinkedin} w={7} h={7} />}
           />
         </Tooltip>
-        <Tooltip hasArrow label={'github'} bg={'gray.900'} color={'white'}>
+        <Tooltip
+          display={['none', 'none', 'block', 'block']}
+          hasArrow
+          label={'github'}
+          bg={'gray.900'}
+          color={'white'}
+        >
           <IconButton
             mx={2}
             _hover={{
@@ -197,7 +224,7 @@ const Layout = ({
           (
             <Flex
               w={'100%'}
-              h={'100vh'}
+              h={['100%', '100%', '100vh', '100vh']}
               direction={'column'}
               align={'center'}
               justify={'center'}

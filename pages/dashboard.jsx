@@ -220,20 +220,21 @@ const Dashboard = () => {
       contract={[CONTRACT.BAT_NAME_SERVICE]}
     >
       <Flex
-        direction={'row'}
+        direction={['column', 'column', 'row', 'row']}
         align={'center'}
         justify={'space-between'}
         w={'100%'}
         pb={5}
         pt={20}
-        px={'10%'}
+        px={['2%', '2%', '10%', '10%']}
       >
         {/* Form */}
         <Flex
           direction={'column'}
           align={'center'}
           justify={'center'}
-          w={'45%'}
+          w={['95%', '95%', '45%', '45%']}
+          mb={['30px', '30px', '0px', '0px']}
         >
           {/* New Domain */}
           {!editView && (
@@ -550,14 +551,14 @@ const Dashboard = () => {
           direction={'column'}
           align={'center'}
           justify={'center'}
-          w={'45%'}
+          w={['95%', '95%', '45%', '45%']}
         >
           <Flex
             w={'100%'}
             align={'flex-start'}
             justify={'flex-start'}
             direction={'column'}
-            p={10}
+            p={[5, 5, 10, 10]}
             backgroundColor={'rgba( 0, 0, 0, 0.65 )'}
             boxShadow={'0 8px 32px 0 rgba( 31, 38, 135, 0.37 )'}
             backdropFilter={'blur( 10.5px )'}
@@ -629,9 +630,9 @@ const Dashboard = () => {
                     }}
                   >
                     <Flex
-                      direction={'row'}
+                      direction={['column', 'column', 'row', 'row']}
                       justify={'flex-start'}
-                      align={'center'}
+                      align={['flex-start', 'flex-start', 'center', 'center']}
                       w={'100%'}
                       pb={2}
                     >
@@ -656,7 +657,9 @@ const Dashboard = () => {
                         </Text>
                       </Flex>
                       { element.owner === currentAccount && (
-                        <Flex>
+                        <Flex
+                          my={['10px', '10px', '0px', '0px']}
+                        >
                           <Link
                             href={`https://testnets.opensea.io/assets/mumbai/${CONTRACT.BAT_NAME_SERVICE.ADDRESS}/${element.id}`}
                             ml={5}
@@ -710,7 +713,7 @@ const Dashboard = () => {
                     <Text
                       pt={2}
                       color={'purple.300'}
-                      fontSize={'sm'}
+                      fontSize={['xs', 'xs', 'sm', 'sm']}
                     >
                       [{element.owner}]
                     </Text>
