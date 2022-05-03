@@ -2,7 +2,7 @@
    <img align="center" width="100" src="https://raw.githubusercontent.com/BraianVaylet/buildspace-bat-domains-ui/main/public/logo.png" />   
 </p>
 
-# 🦇 Bat Domains [UI]
+# 🦇 Bat Domains [UI] - (Servicio ENS)
 
 El proyecto se encuentra deployado en Vercel para que puedan verlo e interactuar con él, toda crítica o comentario se agradece, pueden acceder a la demo en el siguiente link:
 
